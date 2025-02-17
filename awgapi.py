@@ -11,6 +11,8 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from pydantic import BaseModel
 import uvicorn
 
+BEARER_TOKEN = "test"
+
 g_main_config_src = '.main.config'
 g_defclient_config_fn = "_defclient.config"
 g_defserver_config = """
@@ -336,7 +338,7 @@ security = HTTPBearer()
 
 def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
     token = credentials.credentials
-    if token != "mysecrettoken":
+    if token != BEARER_TOKEN:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
     return token
 
